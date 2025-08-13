@@ -7,9 +7,9 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${fileDirname}\\*.cpp",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}\\FractionTest.exe"
             ],
             "options": {
                 "cwd": "C:\\msys64\\ucrt64\\bin"
