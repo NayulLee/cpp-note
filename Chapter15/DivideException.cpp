@@ -15,7 +15,8 @@ int main()
     std::cin >> num2;
 
     try{
-        std::cout << "Divide result : " << divide(num1, num2) << std::endl;
+        int result = divide(num1, num2);
+        std::cout << "Divide result : " << result << std::endl;
     }
     catch(const std::runtime_error& e){
         std::cout << e.what() << std::endl;
