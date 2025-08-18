@@ -12,7 +12,7 @@ Account::Account(int ID, int money, char* name)
     strcpy(cusName, name);
  }
 
- int Account::getID()
+ int Account::getID() const
  {
     return accID;
  }
@@ -55,7 +55,7 @@ void showMenu(void)
     std::cout << "5. 프로그램 종료" << std::endl;
 }
 
-void MakeAccount(void)
+void makeAccount(void)
 {
     int id;
     char name[NAME_LEN];
@@ -63,14 +63,14 @@ void MakeAccount(void)
 
     std::cout << "[계좌 개설]" << std::endl;
     std::cout << "계좌 번호 입력 : " ;   std::cin >> id;
-    std::cout << "이름  입력 : " ;   std::cin >> id;
-    std::cout << "입금액 입력 : " ;   std::cin >> id;
+    std::cout << "이름  입력 : " ;   std::cin >> name;
+    std::cout << "입금액 입력 : " ;   std::cin >> balance;
     std::cout << std::endl;    
 
     accArr[accNum++] = new Account(id, balance, name);
 }
 
-void DepositMoney(void)
+void depositMoney(void)
 {
     int money;
     int id;
@@ -90,7 +90,7 @@ void DepositMoney(void)
      std::cout << "유효하지 않은 ID 입니다." << std::endl << std::endl;
 }
 
-void WithdrawMoney(void)     // 출금
+void withdrawMoney(void)     // 출금
 {
     int money;
     int id;
@@ -105,6 +105,8 @@ void WithdrawMoney(void)     // 출금
                 std::cout << "\"error : 잔액이 부족합니다. \"" << std::endl;
                 return;
             }
+            std::cout << "출금 완료" << std::endl << std::endl;
+            return;
         }
      }
      std::cout << "유효하지 않은 ID입니다." << std::endl;
