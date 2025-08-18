@@ -2,6 +2,9 @@
 #include <iostream>
 #include <cstring>
 
+Account* accArr[100];  // 최대 100개까지 계좌 생성 가능
+int accNum = 0;
+
 Account::Account(int ID, int money, char* name)
  : accID(ID), balance(money)
  {
@@ -42,11 +45,7 @@ Account::~Account()
     delete []cusName;
 }
 
-
-Account* accArr[100];  // 최대 100개까지 계좌 생성 가능
-int accNum = 0;
-
-void showMenw(void)
+void showMenu(void)
 {
     std::cout << "-----------------Meny-----------------" << std::endl;
     std::cout << "1. 계좌 개설" << std::endl;
@@ -75,7 +74,49 @@ void DepositMoney(void)
 {
     int money;
     int id;
+     std::cout << "[입  금]" << std::endl;
+     std::cout << "계좌 ID : ";    std::cin>>id;
+     std::cout << "입금액 : " ;    std::cin>>money;
+
+     for(int i = 0; i < accNum; i++)
+     {
+        if(accArr[i]->getID()==id)
+        {
+            accArr[i]->Deposit(money);
+            std::cout << "\"입금완료\"" << std::endl << std::endl;
+            return;
+        }
+     }
+     std::cout << "유효하지 않은 ID 입니다." << std::endl << std::endl;
 }
 
-void withdraqMoney(void);     // 출금
-void showAllAccInfo(void); 
+void WithdrawMoney(void)     // 출금
+{
+    int money;
+    int id;
+     std::cout << "[출  금]" << std::endl;
+     std::cout << "계좌 ID : ";    std::cin>>id;
+     std::cout << "출금액 : ";      std::cin>>money;
+
+     for(int i = 0; i < accNum; i++){
+        if(accArr[i]->getID() == id)
+        {
+            if(accArr[i]->Withdraw(money)==0){
+                std::cout << "\"error : 잔액이 부족합니다. \"" << std::endl;
+                return;
+            }
+        }
+     }
+     std::cout << "유효하지 않은 ID입니다." << std::endl;
+
+    
+}
+
+void showAllAccInfo(void)
+{
+    for(int i = 0; i < accNum; i++)
+    {
+        accArr[i]-> showAccInfo();
+        std::cout << std::endl;
+    }
+}
