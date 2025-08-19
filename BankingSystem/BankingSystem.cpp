@@ -1,8 +1,11 @@
 #include "BankingSystem.h"
 #include <iostream>
-#include <cstring>
+#include <cstring> // C스타일 문자열 함수 모음(strlen, strcpy...) char[]다룸
 #include <cctype>
 #include <limits>
+#include <string>   // 묹열 클래스 std::string
+#include <sstream>  // 문자열 파싱용 std::stringstream
+#include <stdexcept> // 예외 클래스 std::invalide_argument
 
 Account *accArr[100]; // 최대 100개까지 계좌 생성 가능
 int accNum = 0;
@@ -149,30 +152,51 @@ void depositMoney(void)
 }
 
 void withdrawMoney(void) // 출금
-{
-    int money;
+{   // cin 대신 getline + stringstream방식을 이용하여 리팩토링
+    std::string input;
     int id;
-    std::cout << "[출  금]" << std::endl;
-    std::cout << "계좌 ID : ";
-    std::cin >> id;
+    int money;
 
-    for (int i = 0; i < accNum; i++)
+    std::cout << "[출  금]" << std::endl;
+    std::cout << "계좌 번호 입력 : ";
+    std::getline(std::cin, input); 
+    /*
+    std::getline(입력스트림, 문자열 변수);
+     - 입력 스트림 → 보통 std::cin
+     - 문자열변수 → 입력받은 내용을 저장할 std::string
+     - 사용자가 엔터 칠 때까지 입력받고, 마지막 개행문자 버리고 저장
+    cin>> → 공백 전까지만 입력받는다 : 버퍼에 남은 개행때문에 다음 입력 고일 수 있다.
+    getline → 엔터 칠 때까지 한 줄 전부 입력받음 : 엔터까지 처리해줘서 안정적
+
+    */
+    { // cin 입력값 검사
+        std::stringstream ss(input);
+        if(!(ss>>id) || !(ss.eof()))
+            throw std::invalid_argument("계좌 번호는 숫자만 가능합니다.");
+    }
+    for(int i = 0; i < accNum; i++)
     {
-        if (accArr[i]->getID() == id)
+        if(accArr[i]->getID() == id)
         {
-            std::cout << "출금액 : ";
-            std::cin >> money;
-            if (accArr[i]->Withdraw(money) == 0)
-            {
-                std::cout << "\"error : 잔액이 부족합니다. \"" << std::endl;
-                return;
+            std::cout << "출금액 입력 : ";
+            std::getline(std::cin, input);
+            {   // cin 입력값 검사
+                std::stringstream ss(input);
+                if(!(ss >> money) || !(ss.eof()))
+                    throw std::invalid_argument("출금액은 숫자만 가능합니다.");
             }
+               // 잔액보다 많으면 불가
+                if(accArr[i]->Withdraw(money) == 0)
+                {
+                    std::cout << "ERROR : 잔액이 부족합니다" << std::endl;
+                    return;
+                }
             std::cout << "COMPLETE : 출금 완료!" << std::endl;
             std::cout << std::endl;
             return;
         }
     }
-    std::cout << "유효하지 않은 ID입니다." << std::endl;
+            std::cout << "ERROR : 해당 계좌를 찾을 수 없습니다" << std::endl;
 }
 
 void showAllAccInfo(void)
