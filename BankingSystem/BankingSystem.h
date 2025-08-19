@@ -20,12 +20,13 @@ extern int accNum;
 class Account
 {
 private:
-    int accID;
-    int balance;
-    char* cusName;
+    int accID;      // 계좌번호
+    int balance;    // 잔액
+    char* cusName;  // 고객이름
 
 public:
     Account(int ID, int money, char* name);
+    Account(const Account& ref);
     int getID() const;
     void Deposit(int money);
     int Withdraw(int money);

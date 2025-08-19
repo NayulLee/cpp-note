@@ -17,6 +17,11 @@ Account::Account(int ID, int money, char *name)
     strcpy(cusName, name);
 }
 
+Account::Account(const Account& ref) : accID(ref.accID), balance(ref.balance)
+{
+    cusName = new char[strlen(ref.cusName) + 1];
+    strcpy(cusName, ref.cusName);
+}
 int Account::getID() const
 {
     return accID;
@@ -50,7 +55,7 @@ Account::~Account()
     delete[] cusName;
 }
 
-void showMenu(void)
+void showMenu(void) // 메뉴 보기
 {
     std::cout << "-----------------Menu-----------------" << std::endl;
     std::cout << "1. 계좌 개설" << std::endl;
@@ -61,7 +66,7 @@ void showMenu(void)
     std::cout << "--------------------------------------" << std::endl;
 }
 
-void makeAccount(void)
+void makeAccount(void)  // 계좌 개설
 {
     try
     { // 유효성 검사
@@ -113,7 +118,7 @@ void makeAccount(void)
     }
 }
 
-void depositMoney(void)
+void depositMoney(void) // 입금
 {
     try
     {
