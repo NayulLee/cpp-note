@@ -4,8 +4,16 @@
 // consexpr : 무조건 컴파일 타임에 값이 결정되는 상수임을 보장한다.
 constexpr  int NAME_LEN = 20;
 
+// 프로그램 사용자 선택 메뉴
 enum{MAKE = 1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
 
+// 신용등급
+enum {LEVEL_A = 7, LEVEL_B = 4, LEVEL_C = 2};
+
+// 계좌의 종류
+enum{NOMAL = 1, CREDIT = 2};
+
+// Entity 클래스 'Account'
 class Account
 {
 private:
@@ -16,15 +24,17 @@ private:
 public:
     Account(int ID, int money, char* name);
     Account(const Account& ref);
+
     int getID() const;
-    void Deposit(int money);
+    virtual void Deposit(int money);
     int Withdraw(int money);
     void showAccInfo() const;
     ~Account();
 };
 
+// 컨트롤 클래스 'AccountHandler'
 class AccountHandler
-{   // 컨트롤 클래스 AccountHandler
+{   
 private:
     Account *accArr[100]; // 최대 100개까지 계좌 생성 가능
     int accNum;
@@ -39,5 +49,30 @@ public:
     ~AccountHandler();
 
 };
+
+// Entity 클래스 NormalAccount
+class NormalAccount : public Account
+{
+private:
+    int interRate;  // 이자율 %단위
+
+public:
+    NormalAccount(int ID, int money, char* name, int rate)
+    : Account(ID, money, name), interRate(rate)
+    {}
+
+    void Deposit (int money) override 
+    {
+        Account::Deposit(money); // 원금 추가
+        Account::Deposit(money *(interRate/100.0));  // 이자 추가
+    }
+};
+
+// Entity클래스 HighCreditAccount
+class HighCreditAccount : public Account
+{
+private:
+    
+}
 
 #endif
