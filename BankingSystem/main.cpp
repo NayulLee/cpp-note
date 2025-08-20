@@ -5,12 +5,13 @@
 
 int main()
 {
+    AccountHandler manager;
     std::string input;
     int choice;
 
     while(true)
     {
-        showMenu();
+        manager.showMenu();
         std::cout << "선택 >> "; 
         std::getline(std::cin, input); // 한 줄 통째로 입력 받음
         std::stringstream ss(input);
@@ -46,15 +47,14 @@ int main()
         switch(choice)
         {
         case MAKE:
-            makeAccount();  break;
+            manager.makeAccount();  break;
         case DEPOSIT:
-            depositMoney(); break;
+            manager.depositMoney(); break;
         case WITHDRAW:
-            withdrawMoney(); break;
+            manager.withdrawMoney(); break;
         case INQUIRE:
-            showAllAccInfo(); break;
+            manager.showAllAccInfo(); break;
         case EXIT:
-            for(int i = 0; i < accNum; i++) delete accArr[i];    
             return 0;
         default:
             throw std::out_of_range("메뉴 번호가 잘못되었습니다.");

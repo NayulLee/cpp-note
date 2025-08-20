@@ -4,18 +4,7 @@
 // consexpr : 무조건 컴파일 타임에 값이 결정되는 상수임을 보장한다.
 constexpr  int NAME_LEN = 20;
 
-void showMenu(void);        // 메뉴 출력
-void makeAccount(void);     // 계좌 개설
-void depositMoney(void);     // 입금
-void withdrawMoney(void);     // 출금
-void showAllAccInfo(void);      // 잔액조회
-
 enum{MAKE = 1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
-
-class Account; // 클래스가 정의되기 전에 포인터로 사용할땐 forward declaration 사용
-// extern : "실제 메모리는 다른 곳에 있으니, 여기서는 그냥 존재만 알려주는 것"
-extern Account* accArr[100];
-extern int accNum;
 
 class Account
 {
@@ -32,6 +21,23 @@ public:
     int Withdraw(int money);
     void showAccInfo() const;
     ~Account();
+};
+
+class AccountHandler
+{   // 컨트롤 클래스 AccountHandler
+private:
+    Account *accArr[100]; // 최대 100개까지 계좌 생성 가능
+    int accNum;
+
+public:
+    AccountHandler();
+    void showMenu(void) const;
+    void makeAccount(void);     // 계좌 개설
+    void depositMoney(void);    // 입금
+    void withdrawMoney(void);   // 출금
+    void showAllAccInfo(void);
+    ~AccountHandler();
+
 };
 
 #endif
