@@ -6,7 +6,7 @@
 #include <string>   // 문자열 클래스 std::string
 #include <sstream>  // 문자열 파싱용 std::stringstream
 #include <stdexcept> // 예외 클래스 std::invalide_argument
-
+#include <cstdlib>  // 콘솔창 지우기 system("clear")
 
 
 Account::Account(int ID, int money, char *name)
@@ -74,32 +74,48 @@ void AccountHandler::showMenu(void) const
 
 void AccountHandler::makeAccount(void)  // 계좌 개설
 {
+    int sel;
+    std::cout << "[계좌 종류 선택]" << std::endl;
+    std::cout << "1. 보통 예금 계좌 \t 2. 신용 신뢰 계좌" << std::endl;
+    std::cout << "선택 : ";
+    std::cin >> sel;
+
+    if(sel == NORMAL)
+        makeNormalAccount();
+    else
+        makeCreditAccount();
+}
+
+void AccountHandler::makeNormalAccount(void)
+{
     try
-    { // 유효성 검사
+    {
         int id;
         char name[NAME_LEN];
         int balance;
+        int interRate;
 
-        std::cout << "[계좌 개설]" << std::endl;
-        std::cout << "계좌 번호 입력 : ";
-        std::cin >> id;
+        std::cout << "[보통예금계좌 개설]" << std::endl;
+        std::cout << "계좌 번호 입력 : ";    std::cin >> id;
         if (std::cin.fail())
             throw std::invalid_argument("계좌 번호는 숫자만 가능합니다.");
 
-        std::cout << "이름  입력 : ";
-        std::cin >> name;
+        std::cout << "이름  입력 : ";   std::cin >> name;
         for (int i = 0; name[i] != '\0'; i++)
         {
             if (isdigit(name[i]) || ispunct(name[i]) || isspace(name[i])) // 숫자 || 특문 || 스페이스
                 throw std::invalid_argument("이름에는 숫자/특수문자를 넣을 수 없습니다.");
         }
 
-        std::cout << "초기 금액 입력 : ";
-        std::cin >> balance;
+        std::cout << "초기 금액 입력 : ";    std::cin >> balance;
         if (balance < 0)
             throw std::invalid_argument("입금액은 0이상이어야 합니다.");
 
-        accArr[accNum++] = new Account(id, balance, name);
+        std::cout << "이자율 입력 : ";  std::cin >> interRate;
+        if (std::cin.fail() || interRate <= 0)
+            throw std::invalid_argument("잘못된 값 입력");
+
+        accArr[accNum++] = new NormalAccount(id, balance, name, interRate);
 
         std::cout << "COMPLETE : 계좌 개설 완료!" << std::endl;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 최대값만큼 버퍼를 무시, 개행문자 무시
@@ -124,6 +140,47 @@ void AccountHandler::makeAccount(void)  // 계좌 개설
     }
 }
 
+void AccountHandler::makeCreditAccount(void)
+{
+    int id;
+    char name[NAME_LEN];
+    int balance;
+    int interRate;
+    int creditLevel;
+
+    std::cout << "[신용신뢰계좌 개설]"<<std::endl;
+    std::cout << "계좌 번호 입력 : ";    std::cin >> id;
+        if (std::cin.fail())
+            throw std::invalid_argument("계좌 번호는 숫자만 가능합니다.");
+
+        std::cout << "이름  입력 : ";   std::cin >> name;
+        for (int i = 0; name[i] != '\0'; i++)
+        {
+            if (isdigit(name[i]) || ispunct(name[i]) || isspace(name[i])) // 숫자 || 특문 || 스페이스
+                throw std::invalid_argument("이름에는 숫자/특수문자를 넣을 수 없습니다.");
+        }
+
+        std::cout << "초기 금액 입력 : ";    std::cin >> balance;
+        if (balance < 0)
+            throw std::invalid_argument("입금액은 0이상이어야 합니다.");
+
+        std::cout << "이자율 입력 : ";  std::cin >> interRate;
+        if (std::cin.fail() || interRate <= 0)
+            throw std::invalid_argument("잘못된 값 입력");
+
+        std::cout << "신용등급(1toA, 2toB, 3toC) : ";    std::cin >> creditLevel;
+        std::cout << std::endl;
+
+        switch(creditLevel)
+        {
+        case 1:
+            accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_A); break;
+        case 2:
+            accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_B); break;
+        case 3:
+            accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_C); break;
+        }
+}
 void AccountHandler::depositMoney(void) // 입금
 {
     try

@@ -11,7 +11,7 @@ enum{MAKE = 1, DEPOSIT, WITHDRAW, INQUIRE, EXIT};
 enum {LEVEL_A = 7, LEVEL_B = 4, LEVEL_C = 2};
 
 // 계좌의 종류
-enum{NOMAL = 1, CREDIT = 2};
+enum{NORMAL = 1, CREDIT = 2};
 
 // Entity 클래스 'Account'
 class Account
@@ -46,6 +46,10 @@ public:
     void withdrawMoney(void);   // 출금
     void showAllAccInfo(void);
     ~AccountHandler();
+
+protected:
+    void makeNormalAccount(void);   // 일반 계좌(원금 + 이자)
+    void makeCreditAccount(void);   // 신용 계좌(원금 + 이자 + 신용등급에 따른 이자 추가)
 
 };
 
