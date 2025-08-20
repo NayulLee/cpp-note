@@ -3,12 +3,11 @@
 #include <cstring> // C스타일 문자열 함수 모음(strlen, strcpy...) char[]다룸
 #include <cctype>
 #include <limits>
-#include <string>   // 묹열 클래스 std::string
+#include <string>   // 문자열 클래스 std::string
 #include <sstream>  // 문자열 파싱용 std::stringstream
 #include <stdexcept> // 예외 클래스 std::invalide_argument
 
-Account *accArr[100]; // 최대 100개까지 계좌 생성 가능
-int accNum = 0;
+
 
 Account::Account(int ID, int money, char *name)
     : accID(ID), balance(money)
@@ -55,7 +54,14 @@ Account::~Account()
     delete[] cusName;
 }
 
-void showMenu(void) // 메뉴 보기
+AccountHandler::AccountHandler() : accNum(0) {}
+AccountHandler::~AccountHandler()
+{
+    for(int i = 0; i < accNum; i++)
+        delete accArr[i];
+}
+
+void AccountHandler::showMenu(void) const
 {
     std::cout << "-----------------Menu-----------------" << std::endl;
     std::cout << "1. 계좌 개설" << std::endl;
@@ -66,7 +72,7 @@ void showMenu(void) // 메뉴 보기
     std::cout << "--------------------------------------" << std::endl;
 }
 
-void makeAccount(void)  // 계좌 개설
+void AccountHandler::makeAccount(void)  // 계좌 개설
 {
     try
     { // 유효성 검사
@@ -118,7 +124,7 @@ void makeAccount(void)  // 계좌 개설
     }
 }
 
-void depositMoney(void) // 입금
+void AccountHandler::depositMoney(void) // 입금
 {
     try
     {
@@ -156,7 +162,7 @@ void depositMoney(void) // 입금
     }
 }
 
-void withdrawMoney(void) // 출금
+void AccountHandler::withdrawMoney(void) // 출금
 {   // cin 대신 getline + stringstream방식을 이용하여 리팩토링
     std::string input;
     int id;
@@ -204,7 +210,7 @@ void withdrawMoney(void) // 출금
             std::cout << "ERROR : 해당 계좌를 찾을 수 없습니다" << std::endl;
 }
 
-void showAllAccInfo(void)
+void AccountHandler::showAllAccInfo(void)
 {
     for (int i = 0; i < accNum; i++)
     {
