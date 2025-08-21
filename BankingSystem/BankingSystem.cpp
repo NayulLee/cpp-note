@@ -21,6 +21,7 @@ Account::Account(const Account& ref) : accID(ref.accID), balance(ref.balance)
     cusName = new char[strlen(ref.cusName) + 1];
     strcpy(cusName, ref.cusName);
 }
+
 int Account::getID() const
 {
     return accID;
@@ -55,6 +56,7 @@ Account::~Account()
 }
 
 AccountHandler::AccountHandler() : accNum(0) {}
+
 AccountHandler::~AccountHandler()
 {
     for(int i = 0; i < accNum; i++)
@@ -142,6 +144,7 @@ void AccountHandler::makeNormalAccount(void)
 
 void AccountHandler::makeCreditAccount(void)
 {
+    try{
     int id;
     char name[NAME_LEN];
     int balance;
@@ -180,7 +183,15 @@ void AccountHandler::makeCreditAccount(void)
         case 3:
             accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_C); break;
         }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "ERROR : " << e.what() << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 }
+
 void AccountHandler::depositMoney(void) // 입금
 {
     try
@@ -209,8 +220,7 @@ void AccountHandler::depositMoney(void) // 입금
             }
         }
         throw std::invalid_argument("해당 계좌를 찾을 수 없습니다.");
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
+      }
     catch (const std::exception &e)
     {
         std::cerr << "ERROR : " << e.what() << std::endl;
@@ -265,6 +275,7 @@ void AccountHandler::withdrawMoney(void) // 출금
         }
     }
             std::cout << "ERROR : 해당 계좌를 찾을 수 없습니다" << std::endl;
+            
 }
 
 void AccountHandler::showAllAccInfo(void)

@@ -28,7 +28,7 @@ public:
     virtual void Deposit(int money);
     int Withdraw(int money);
     void showAccInfo() const;
-    ~Account();
+    virtual ~Account();
 };
 
 // 컨트롤 클래스 'AccountHandler'
@@ -45,7 +45,7 @@ public:
     void depositMoney(void);    // 입금
     void withdrawMoney(void);   // 출금
     void showAllAccInfo(void);
-    ~AccountHandler();
+    virtual ~AccountHandler();
 
 protected:
     void makeNormalAccount(void);   // 일반 계좌(원금 + 이자)
