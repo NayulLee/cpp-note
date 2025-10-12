@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+
+    std::string s;
+    std::cin >> s;
+
+    // ¾ËÆÄºª °³¼ö Ä«¿îÆ®¿ë º¤ÅÍ
+    vector<int> count(26, 0);   // ¾ËÆÄºª ÀÎµ¦½º
+    vector<int> chunk(26, 0);   // ¹­À½ ÀÎµ¦½º
+
+    char prev = '\0'; // Á÷Àü ¹®ÀÚ
+    for (char c : s) {
+        int idx = c - 'a';
+        count[idx]++;    
+
+        if (c != prev) {
+            chunk[idx]++;
+        }
+
+        prev = c;
+    }
+
+    string result = "";
+    for (int i = 0; i < 26; i++) 
+    {
+        if (count[i] >= 2 && chunk[i] >= 2) {
+            result += (char)('a' + i);
+        }
+    }
+
+    if (result.empty()) 
+    {
+        cout << "N" << endl;
+    }
+    else 
+    {
+        cout << result << endl;
+    }
+
+    return 0;
+}
