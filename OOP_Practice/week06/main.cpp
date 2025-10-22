@@ -1,0 +1,8 @@
+#include "point.h"
+#include <string>
+
+
+int main()
+{
+	return 0;
+}
