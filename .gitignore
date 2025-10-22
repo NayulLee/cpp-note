@@ -1,52 +1,74 @@
-# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,c++,c
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,c++,c
+# =========================================
+#   Visual Studio / VS Code / C / C++ 
+#   Optimized Gitignore (VS2022 기준)
+# =========================================
 
-### C ###
-# Prerequisites
-*.d
+### General ###
+# OS-specific
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.stackdump
+system.log
 
-# Object files
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+# Windows shortcuts
+*.lnk
+
+# =========================================
+#   C / C++
+# =========================================
+# Object files & intermediate build outputs
 *.o
-*.ko
 *.obj
+*.ko
 *.elf
-
-# Linker output
 *.ilk
 *.map
 *.exp
+*.idb
+*.tlog
+*.tmp
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
+# Static / Dynamic libraries
 *.a
 *.la
+*.lib
 *.lo
-
-# Shared objects (inc. Windows DLLs)
 *.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
+# Precompiled headers
+*.pch
+*.gch
+
+# Executables / Binaries
 *.exe
 *.out
 *.app
-*.i*86
-*.x86_64
 *.hex
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
+# Debugging artifacts
 *.pdb
+*.pdbx
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.log
+*.cache
 
-# Kernel Module Compile Results
+# Kernel modules (for C devs using MinGW or Linux)
 *.mod*
 *.cmd
 .tmp_versions/
@@ -55,71 +77,28 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-### C++ ###
-# Prerequisites
+# =========================================
+#   Visual Studio (VS2022)
+# =========================================
+.vs/
+Debug/
+Release/
+x64/
+x86/
+ipch/
+*.opendb
 
-# Compiled Object files
-*.slo
-
-# Precompiled Headers
-
-# Compiled Dynamic libraries
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-
-# Executables
-
-### VisualStudioCode ###
-.vscode/*
-.vscode/settings.json
-.vscode/tasks.json
-.vscode/launch.json
-.vscode/extensions.json
-.vscode/*.code-snippets
-
-# Local History for Visual Studio Code
+# =========================================
+#   Visual Studio Code
+# =========================================
+.vscode/
 .history/
+.ionide/
 
-# Built Visual Studio Code Extensions
-*.vsix
-
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-.ionide
-
-### Windows ###
-# Windows thumbnail cache files
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-
-# Dump file
-*.stackdump
-
-# Folder config file
-[Dd]esktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-
-system.log
-
-# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,c++,c
+# =========================================
+#   Misc
+# =========================================
+*.db
+*.smod
+*.mod
+*.d
