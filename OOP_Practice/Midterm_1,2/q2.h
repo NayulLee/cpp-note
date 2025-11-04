@@ -5,7 +5,7 @@
 
 class IntegerVector
 {
-private:
+protected:
 	/*
 		- 동적할당 클래스를 다룰 때 
 		  포인터와 더불어 capacity와 size정보는 기본적으로 관리하도록 한다.
@@ -20,14 +20,17 @@ public:
 	IntegerVector(const IntegerVector& other);
 	~IntegerVector();
 
+	int* get_data();
 	int get_size();
 	int get_capacity();
 
-	// 배열 크기가 용량에 도달하면 용량 두배로 늘린다.
-	void resize();	
-	void append(int item);
+	void set_size(int sz);
+	void set_capacity(int cp);
+
+	void resize();// 배열 크기가 용량에 도달하면 용량 두배로 늘린다.
+	virtual void append(int item);
 	void pop();
-	int at(int idx);
+	int at(int idx); // idx 배열 요소 제거
 
 
 };

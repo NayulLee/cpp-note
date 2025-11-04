@@ -25,9 +25,15 @@ IntegerVector::~IntegerVector()
 	delete[] data;
 }
 
+int* IntegerVector::get_data() { return data; }
+
 int IntegerVector::get_size() { return size; }
 
 int IntegerVector::get_capacity() { return capacity; }
+
+void IntegerVector::set_size(int sz) { size = sz; }
+
+void IntegerVector::set_capacity(int cp) { capacity = cp; }
 
 // 단일 책임 원칙에 의해 기능(요소 추가, 배열 2배 확장)은 분리하도록 한다.(append, resize)
 void IntegerVector::resize()
@@ -44,6 +50,8 @@ void IntegerVector::resize()
 	data = temp;
 	delete[] old;
 	capacity = newCap;
+
+	std::cout << "vector size up..."<< std::endl;
 }
 
 void IntegerVector::append(int item)
